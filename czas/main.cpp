@@ -9,7 +9,7 @@ using namespace std;
 using namespace chrono;
 
 // ============================================================
-// Klasa reprezentuj¹ca stos zbudowany na liœcie jednokierunkowej
+// Klasa reprezentujÂ¹ca stos zbudowany na liÅ“cie jednokierunkowej
 // ============================================================
 
 class StackList
@@ -37,15 +37,15 @@ public:
     // Dodaje element na szczyt stosu.
     //
     // Parametr:
-    // value - liczba, która ma zostaæ dodana na stos.
+    // value - liczba, ktÃ³ra ma zostaÃ¦ dodana na stos.
     void push(int value)
     {
         topNode = new Node(value, topNode);
     }
 
-    // Usuwa element znajduj¹cy siê na szczycie stosu.
+    // Usuwa element znajdujÂ¹cy siÃª na szczycie stosu.
     //
-    // Brak parametrów - funkcja usuwa aktualnie pierwszy element.
+    // Brak parametrÃ³w - funkcja usuwa aktualnie pierwszy element.
     void pop()
     {
         if (topNode == nullptr)
@@ -56,9 +56,9 @@ public:
         delete temp;
     }
 
-    // Zwraca wartoœæ elementu znajduj¹cego siê na szczycie stosu.
+    // Zwraca wartoÅ“Ã¦ elementu znajdujÂ¹cego siÃª na szczycie stosu.
     //
-    // Brak parametrów - funkcja odczytuje aktualny szczyt stosu.
+    // Brak parametrÃ³w - funkcja odczytuje aktualny szczyt stosu.
     int top() const
     {
         return topNode->value;
@@ -66,7 +66,7 @@ public:
 
     // Sprawdza, czy stos jest pusty.
     //
-    // Brak parametrów - funkcja sprawdza aktualny stan stosu.
+    // Brak parametrÃ³w - funkcja sprawdza aktualny stan stosu.
     bool empty() const
     {
         return topNode == nullptr;
@@ -74,7 +74,7 @@ public:
 
     // Usuwa wszystkie elementy stosu.
     //
-    // Brak parametrów - funkcja czyœci ca³y stos.
+    // Brak parametrÃ³w - funkcja czyÅ“ci caÂ³y stos.
     void clear()
     {
         while (topNode != nullptr)
@@ -85,10 +85,10 @@ public:
         }
     }
 
-    // Sortuje elementy stosu rosn¹co.
+    // Sortuje elementy stosu rosnÂ¹co.
     //
-    // Brak parametrów - funkcja sortuje wszystkie elementy
-    // znajduj¹ce siê aktualnie na stosie.
+    // Brak parametrÃ³w - funkcja sortuje wszystkie elementy
+    // znajdujÂ¹ce siÃª aktualnie na stosie.
     void sortStack()
     {
         vector<int> values;
@@ -104,7 +104,7 @@ public:
         sort(values.begin(), values.end());
 
         // Odtworzenie stosu.
-        // Od koñca, aby najmniejsza wartoœæ by³a na szczycie.
+        // Od koÃ±ca, aby najmniejsza wartoÅ“Ã¦ byÂ³a na szczycie.
         for (auto it = values.rbegin(); it != values.rend(); ++it)
         {
             push(*it);
@@ -126,15 +126,15 @@ public:
 
     // Rozpoczyna pomiar czasu.
     //
-    // Brak parametrów - zapisuje aktualny moment rozpoczêcia.
+    // Brak parametrÃ³w - zapisuje aktualny moment rozpoczÃªcia.
     void start()
     {
         startTime = steady_clock::now();
     }
 
-    // Koñczy pomiar i zwraca czas w mikrosekundach.
+    // KoÃ±czy pomiar i zwraca czas w mikrosekundach.
     //
-    // Brak parametrów - oblicza czas od wywo³ania funkcji start().
+    // Brak parametrÃ³w - oblicza czas od wywoÂ³ania funkcji start().
     long long stop()
     {
         auto endTime = steady_clock::now();
@@ -147,7 +147,7 @@ public:
 
 
 // ============================================================
-// Klasa wykonuj¹ca testy
+// Klasa wykonujÂ¹ca testy
 // ============================================================
 
 class SortingTest
@@ -159,7 +159,25 @@ private:
     StackList stos;
     int* tablica;
 
+    // Vector przechowujÂ¹cy elementy.
+    vector<int> wektor;
+
+    // Vector zawierajÂ¹cy dane wykorzystane do testÃ³w.
     vector<int> dane;
+
+
+    // Czasy dodawania / wpisywania danych.
+    long long czasKolejkaDodawanie;
+    long long czasStosDodawanie;
+    long long czasTablicaDodawanie;
+    long long czasWektorDodawanie;
+
+
+    // Czasy sortowania danych.
+    long long czasKolejkaSortowanie;
+    long long czasStosSortowanie;
+    long long czasTablicaSortowanie;
+    long long czasWektorSortowanie;
 
 public:
 
@@ -167,17 +185,30 @@ public:
     {
         tablica = new int[ELEMENTS];
 
-        // Generowanie liczb odbywa siê przed pomiarem,
-        // aby czas generowania nie wp³ywa³ na wynik.
-        mt19937 generator(12345);
-        uniform_int_distribution<int> distribution(1, 1000000);
+        // Rezerwujemy miejsce dla 100 000 elementÃ³w w vectorze.
+        wektor.reserve(ELEMENTS);
 
-        dane.resize(ELEMENTS);
+        // Generowanie liczb odbywa sie przed wstawieniem ich do typow danych
+        mt19937 generator(12345); // algorytm generatora liczb pseudolosowych.
+        uniform_int_distribution<int> distribution(1, 1000000); // tworzy rozkÅ‚ad, ktÃ³ry losuje liczby caÅ‚kowite typu int.
+
+        dane.resize(ELEMENTS); // zmienia rozmiar wektora.
 
         for (int i = 0; i < ELEMENTS; i++)
         {
-            dane[i] = distribution(generator);
+            dane[i] = distribution(generator); // nazwa naszego rozkÅ‚adu
         }
+
+        // PoczÄ…tkowe wartoÅ›ci czasÃ³w.
+        czasKolejkaDodawanie = 0;
+        czasStosDodawanie = 0;
+        czasTablicaDodawanie = 0;
+        czasWektorDodawanie = 0;
+
+        czasKolejkaSortowanie = 0;
+        czasStosSortowanie = 0;
+        czasTablicaSortowanie = 0;
+        czasWektorSortowanie = 0;
     }
 
     ~SortingTest()
@@ -189,11 +220,11 @@ public:
     // Funkcja Wypisz
     // ========================================================
 
-    // Wpisuje 100 000 elementów do kolejki, stosu z listy
-    // oraz zwyk³ej tablicy i mierzy czas ka¿dej operacji.
+    // Wpisuje 100 000 elementÃ³w do kolejki, stosu z listy,
+    // zwykÂ³ej tablicy oraz vectora i mierzy czas kaÂ¿dej operacji.
     //
     // Parametry:
-    // brak - liczba elementów jest okreœlona przez sta³¹ ELEMENTS.
+    // brak - liczba elementÃ³w jest okreÅ“lona przez staÂ³Â¹ ELEMENTS.
     void Wypisz()
     {
         Timer timer;
@@ -209,7 +240,7 @@ public:
             kolejka.push(dane[i]);
         }
 
-        long long czasKolejka = timer.stop();
+        czasKolejkaDodawanie = timer.stop();
 
 
         // ----------------------------------------------------
@@ -223,11 +254,11 @@ public:
             stos.push(dane[i]);
         }
 
-        long long czasStos = timer.stop();
+        czasStosDodawanie = timer.stop();
 
 
         // ----------------------------------------------------
-        // ZWYK£A TABLICA
+        // ZWYKÂ£A TABLICA
         // ----------------------------------------------------
 
         timer.start();
@@ -237,7 +268,21 @@ public:
             tablica[i] = dane[i];
         }
 
-        long long czasTablica = timer.stop();
+        czasTablicaDodawanie = timer.stop();
+
+
+        // ----------------------------------------------------
+        // VECTOR
+        // ----------------------------------------------------
+
+        timer.start();
+
+        for (int i = 0; i < ELEMENTS; i++)
+        {
+            wektor.push_back(dane[i]);
+        }
+
+        czasWektorDodawanie = timer.stop();
 
 
         // ----------------------------------------------------
@@ -245,9 +290,10 @@ public:
         // ----------------------------------------------------
 
         cout << "Wypisywanie:\n";
-        cout << "kolejka: " << czasKolejka << " us\n";
-        cout << "stos:    " << czasStos << " us\n";
-        cout << "tablica: " << czasTablica << " us\n";
+        cout << "kolejka: " << czasKolejkaDodawanie << " us\n";
+        cout << "stos:    " << czasStosDodawanie << " us\n";
+        cout << "tablica: " << czasTablicaDodawanie << " us\n";
+        cout << "vector:  " << czasWektorDodawanie << " us\n";
         cout << endl;
     }
 
@@ -256,12 +302,13 @@ public:
     // Funkcja Sortuj
     // ========================================================
 
-    // Sortuje wczeœniej zapisane 100 000 elementów w kolejce,
-    // stosie z listy oraz zwyk³ej tablicy i mierzy czas sortowania.
+    // Sortuje wczeÅ“niej zapisane 100 000 elementÃ³w w kolejce,
+    // stosie z listy, zwykÂ³ej tablicy oraz vectorze
+    // i mierzy czas sortowania.
     //
     // Parametry:
-    // brak - funkcja korzysta z danych zapisanych wczeœniej
-    // przez funkcjê Wypisz().
+    // brak - funkcja korzysta z danych zapisanych wczeÅ“niej
+    // przez funkcjÃª Wypisz().
     void Sortuj()
     {
         Timer timer;
@@ -275,14 +322,14 @@ public:
 
         vector<int> kolejkaDane;
 
-        // Wyci¹gniêcie elementów z kolejki.
+        // WyciÂ¹gniÃªcie elementÃ³w z kolejki.
         while (!kolejka.empty())
         {
             kolejkaDane.push_back(kolejka.front());
             kolejka.pop();
         }
 
-        // Sortowanie elementów.
+        // Sortowanie elementÃ³w.
         sort(kolejkaDane.begin(), kolejkaDane.end());
 
         // Ponowne utworzenie kolejki.
@@ -291,7 +338,7 @@ public:
             kolejka.push(value);
         }
 
-        long long czasKolejka = timer.stop();
+        czasKolejkaSortowanie = timer.stop();
 
 
         // ----------------------------------------------------
@@ -302,7 +349,7 @@ public:
 
         stos.sortStack();
 
-        long long czasStos = timer.stop();
+        czasStosSortowanie = timer.stop();
 
 
         // ----------------------------------------------------
@@ -313,7 +360,18 @@ public:
 
         sort(tablica, tablica + ELEMENTS);
 
-        long long czasTablica = timer.stop();
+        czasTablicaSortowanie = timer.stop();
+
+
+        // ----------------------------------------------------
+        // SORTOWANIE VECTOR
+        // ----------------------------------------------------
+
+        timer.start();
+
+        sort(wektor.begin(), wektor.end());
+
+        czasWektorSortowanie = timer.stop();
 
 
         // ----------------------------------------------------
@@ -321,9 +379,48 @@ public:
         // ----------------------------------------------------
 
         cout << "Sortowanie:\n";
+        cout << "kolejka: " << czasKolejkaSortowanie << " us\n";
+        cout << "stos:    " << czasStosSortowanie << " us\n";
+        cout << "tablica: " << czasTablicaSortowanie << " us\n";
+        cout << "vector:  " << czasWektorSortowanie << " us\n";
+        cout << endl;
+    }
+
+
+    // ========================================================
+    // Funkcja czas_dodawanie
+    // ========================================================
+
+    // Dodaje czas wpisywania elementÃ³w oraz czas sortowania
+    // dla kolejki, stosu, tablicy oraz vectora.
+    //
+    // Parametry:
+    // brak - funkcja korzysta z czasÃ³w zapisanych wczeÅ›niej
+    // przez funkcje Wypisz() oraz Sortuj().
+    void czas_dodawanie()
+    {
+        long long czasKolejka =
+            czasKolejkaDodawanie + czasKolejkaSortowanie;
+
+        long long czasStos =
+            czasStosDodawanie + czasStosSortowanie;
+
+        long long czasTablica =
+            czasTablicaDodawanie + czasTablicaSortowanie;
+
+        long long czasWektor =
+            czasWektorDodawanie + czasWektorSortowanie;
+
+
+        // ----------------------------------------------------
+        // WYNIKI
+        // ----------------------------------------------------
+
+        cout << "Dodawanie:\n";
         cout << "kolejka: " << czasKolejka << " us\n";
         cout << "stos:    " << czasStos << " us\n";
         cout << "tablica: " << czasTablica << " us\n";
+        cout << "vector:  " << czasWektor << " us\n";
         cout << endl;
     }
 };
@@ -337,11 +434,15 @@ int main()
 {
     SortingTest test;
 
-    // Najpierw wpisujemy 100 000 elementów.
+    // Najpierw wpisujemy 100 000 elementÃ³w.
     test.Wypisz();
 
-    // Nastêpnie sortujemy wczeœniej wpisane elementy.
+    // NastÄ™pnie sortujemy wczeÅ›niej wpisane elementy.
     test.Sortuj();
+
+    // Na koniec dodajemy czas wpisywania
+    // oraz czas sortowania.
+    test.czas_dodawanie();
 
     return 0;
 }
