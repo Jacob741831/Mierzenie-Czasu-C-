@@ -7,6 +7,7 @@
  1. **Kolejka (`queue`)**
 2. **Stos zbudowany na liście jednokierunkowej**
 3. **Zwykła tablica dynamiczna**
+4. **Wektory (`vector`)**
 
  Program pracuje na **100 000 elementach**.
 
