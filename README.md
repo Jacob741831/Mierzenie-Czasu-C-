@@ -1,7 +1,3 @@
-Jasne — tutaj README trzeba zmienić dość mocno, bo aktualny program porównuje **6 struktur**, wykonuje **3 rodzaje operacji** i ma kilka istotnych różnic względem poprzedniej wersji. Poniżej masz gotowe README do wklejenia do `README.md`.
-
-README.md
-
 # Pomiar czasu operacji na strukturach danych w C++
 
 ## Opis projektu
@@ -843,7 +839,3 @@ W komentarzach przy funkcjach i ich parametrach opisane jest, **co dany parametr
 ```
 const int ile=100000;
 ```
-
-dlatego większość funkcji nie wymaga przekazywania liczby elementów jako parametru.
-
-Jedna ważna rzecz: w Twoim kodzie `drzewo::sortuj()` **nie sortuje faktycznie drzewa** — tylko tworzy vector, przechodzi po drzewie i sortuje ten vector, a wynik jest potem wyrzucany. README powyżej opisuje to zgodnie z rzeczywistym działaniem kodu, żeby nie było rozbieżności między dokumentacją a programem.
